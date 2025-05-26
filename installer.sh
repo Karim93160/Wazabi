@@ -1,45 +1,49 @@
 #!/bin/bash
 
 # Couleurs
+RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
-RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Chemins absolus
-WAZABI_ROOT=$(pwd)
+WAZABI_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 INSTALL_DIR="$HOME/bin"
-BANNER_PATH="$WAZABI_ROOT/wazabi/banner/banner.txt"
+BANNER_RELATIVE="wazabi/banner/banner.txt"
+BANNER_ABSOLUTE="$WAZABI_ROOT/$BANNER_RELATIVE"
 
 echo -e "${BLUE}=== Installation Wazabi Shell ===${NC}"
 
-# 1. Vérification des prérequis
+# 1. Vérification Python
 if ! command -v python3 &>/dev/null; then
-    echo -e "${RED}Python3 requis. Installez-le avec: pkg install python${NC}"
+    echo -e "${RED}ERREUR: Python3 requis. Installez-le avec: pkg install python${NC}"
     exit 1
 fi
 
-# 2. Création du répertoire bin si nécessaire
-mkdir -p "$INSTALL_DIR"
+# 2. Création du répertoire bin
+mkdir -p "$INSTALL_DIR" || {
+    echo -e "${RED}ERREUR: Impossible de créer $INSTALL_DIR${NC}"
+    exit 1
+}
 
-# 3. Installation des dépendances
-if [ -f "requirements.txt" ]; then
-    pip install -r requirements.txt || echo -e "${YELLOW}Attention lors de l'installation des dépendances${NC}"
-fi
+# 3. Installation dépendances
+[ -f "requirements.txt" ] && {
+    pip install -r requirements.txt || echo -e "${YELLOW}ATTENTION: Certaines dépendances n'ont pas pu s'installer${NC}"
+}
 
 # 4. Création du wrapper intelligent
 cat > "$INSTALL_DIR/wazabi" <<EOF
 #!/bin/bash
-# Wrapper universel Wazabi
+# Wrapper Universel Wazabi
 WAZABI_ROOT="$WAZABI_ROOT"
-BANNER_PATH="$BANNER_PATH"
+BANNER_PATH="$BANNER_ABSOLUTE"
 
-# Vérification du banner
-if [ ! -f "\$BANNER_PATH" ]; then
-    echo -e "${YELLOW}Avertissement: banner.txt introuvable à \$BANNER_PATH${NC}" >&2
+# Vérification et chargement du banner
+if [ -f "\$BANNER_PATH" ]; then
+    export WAZABI_BANNER="\$(cat "\$BANNER_PATH")"
 else
-    export WAZABI_BANNER_PATH="\$BANNER_PATH"
+    echo -e "${YELLOW}ATTENTION: Banner introuvable à \$BANNER_PATH${NC}" >&2
 fi
 
 # Exécution du script principal
@@ -49,17 +53,17 @@ EOF
 chmod +x "$INSTALL_DIR/wazabi"
 
 # 5. Configuration du PATH
-if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
-    echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.bashrc
-    [ -f ~/.zshrc ] && echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.zshrc
-fi
+grep -q "$INSTALL_DIR" ~/.bashrc || echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.bashrc
+[ -f ~/.zshrc ] && grep -q "$INSTALL_DIR" ~/.zshrc || echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.zshrc
 
-# 6. Vérification finale
-if [ -f "$BANNER_PATH" ]; then
-    echo -e "${GREEN}Banner configuré: $BANNER_PATH${NC}"
-else
-    echo -e "${YELLOW}Avertissement: banner.txt non trouvé à l'emplacement attendu${NC}"
-fi
+# 6. Message final
+echo -e "\n${GREEN}=== Installation réussie ! ==="
+echo -e "Commandes disponibles:"
+echo -e "  ${BLUE}wazabi${NC} - Lancer le shell"
+echo -e "\nEmplacement du banner:"
+echo -e "  ${YELLOW}$BANNER_ABSOLUTE${NC}"
 
-echo -e "${GREEN}Installation terminée avec succès !${NC}"
-echo -e "Utilisez la commande: ${BLUE}wazabi${NC}"
+if [ ! -f "$BANNER_ABSOLUTE" ]; then
+    echo -e "\n${RED}ERREUR: Le fichier banner.txt est introuvable à l'emplacement ci-dessus${NC}"
+    exit 1
+fi
