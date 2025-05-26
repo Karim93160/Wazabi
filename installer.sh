@@ -7,63 +7,64 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# Chemins absolus
-WAZABI_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-INSTALL_DIR="$HOME/bin"
-BANNER_RELATIVE="wazabi/banner/banner.txt"
-BANNER_ABSOLUTE="$WAZABI_ROOT/$BANNER_RELATIVE"
+# Chemins ABSOLUS
+INSTALL_DIR="/data/data/com.termux/files/usr/bin"  # Le chemin global de Termux
+WAZABI_ROOT=$(pwd)
+BANNER_SOURCE="$WAZABI_ROOT/wazabi/banner/banner.txt"
+BANNER_DEST="$INSTALL_DIR/wazabi_banner.txt"
 
-echo -e "${BLUE}=== Installation Wazabi Shell ===${NC}"
+echo -e "${BLUE}=== Installation FORCÉE de Wazabi ===${NC}"
 
 # 1. Vérification Python
 if ! command -v python3 &>/dev/null; then
-    echo -e "${RED}ERREUR: Python3 requis. Installez-le avec: pkg install python${NC}"
+    echo -e "${RED}ERREUR: Python3 requis !${NC}"
+    echo -e "Installez-le avec: ${YELLOW}pkg install python${NC}"
     exit 1
 fi
 
-# 2. Création du répertoire bin
-mkdir -p "$INSTALL_DIR" || {
-    echo -e "${RED}ERREUR: Impossible de créer $INSTALL_DIR${NC}"
-    exit 1
-}
-
-# 3. Installation dépendances
+# 2. Installation dépendances
 [ -f "requirements.txt" ] && {
-    pip install -r requirements.txt || echo -e "${YELLOW}ATTENTION: Certaines dépendances n'ont pas pu s'installer${NC}"
+    echo -e "${BLUE}Installation des dépendances...${NC}"
+    pip install -r requirements.txt
 }
 
-# 4. Création du wrapper intelligent
+# 3. COPIE FORCÉE du banner
+echo -e "${BLUE}Copie du banner vers $INSTALL_DIR...${NC}"
+if [ -f "$BANNER_SOURCE" ]; then
+    cp "$BANNER_SOURCE" "$BANNER_DEST" && \
+    chmod 644 "$BANNER_DEST" && \
+    echo -e "${GREEN}Banner copié avec succès !${NC}"
+else
+    echo -e "${RED}ERREUR CRITIQUE: banner.txt introuvable !${NC}"
+    echo -e "Il doit être dans: ${YELLOW}wazabi/banner/banner.txt${NC}"
+    exit 1
+fi
+
+# 4. Création du WRAPPER DUR
+echo -e "${BLUE}Création du wrapper système...${NC}"
 cat > "$INSTALL_DIR/wazabi" <<EOF
 #!/bin/bash
-# Wrapper Universel Wazabi
-WAZABI_ROOT="$WAZABI_ROOT"
-BANNER_PATH="$BANNER_ABSOLUTE"
+# Wrapper Dur pour Wazabi
+BANNER_PATH="$BANNER_DEST"
 
-# Vérification et chargement du banner
-if [ -f "\$BANNER_PATH" ]; then
-    export WAZABI_BANNER="\$(cat "\$BANNER_PATH")"
-else
-    echo -e "${YELLOW}ATTENTION: Banner introuvable à \$BANNER_PATH${NC}" >&2
-fi
-
-# Exécution du script principal
-exec python3 "\$WAZABI_ROOT/wazabi.py" "\$@"
-EOF
-
-chmod +x "$INSTALL_DIR/wazabi"
-
-# 5. Configuration du PATH
-grep -q "$INSTALL_DIR" ~/.bashrc || echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.bashrc
-[ -f ~/.zshrc ] && grep -q "$INSTALL_DIR" ~/.zshrc || echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.zshrc
-
-# 6. Message final
-echo -e "\n${GREEN}=== Installation réussie ! ==="
-echo -e "Commandes disponibles:"
-echo -e "  ${BLUE}wazabi${NC} - Lancer le shell"
-echo -e "\nEmplacement du banner:"
-echo -e "  ${YELLOW}$BANNER_ABSOLUTE${NC}"
-
-if [ ! -f "$BANNER_ABSOLUTE" ]; then
-    echo -e "\n${RED}ERREUR: Le fichier banner.txt est introuvable à l'emplacement ci-dessus${NC}"
+if [ ! -f "\$BANNER_PATH" ]; then
+    echo -e "${RED}ERREUR: Le banner système a disparu !${NC}" >&2
     exit 1
 fi
+
+# Exécution avec le chemin ABSOLU
+python3 "$INSTALL_DIR/wazabi.py" "\$@"
+EOF
+
+# 5. Copie du script principal
+echo -e "${BLUE}Installation du script principal...${NC}"
+cp "wazabi.py" "$INSTALL_DIR/wazabi.py" && \
+chmod +x "$INSTALL_DIR/wazabi.py" "$INSTALL_DIR/wazabi" && \
+echo -e "${GREEN}Script installé dans $INSTALL_DIR${NC}"
+
+# 6. Message final
+echo -e "\n${GREEN}=== INSTALLATION RÉUSSIE ===${NC}"
+echo -e "Vous pouvez maintenant utiliser:"
+echo -e "  ${BLUE}wazabi${NC} ${GREEN}depuis n'importe où !${NC}"
+echo -e "\nLe banner est FORCÉ à l'emplacement:"
+echo -e "  ${YELLOW}$BANNER_DEST${NC}"
