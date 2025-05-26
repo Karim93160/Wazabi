@@ -3,6 +3,7 @@
 # Nom du script principal et du dossier racine
 WAZABI_ROOT_DIR=$(pwd) # Obtient le répertoire courant où le script est exécuté
 WAZABI_MAIN_SCRIPT="wazabi.py"
+WAZABI_BANNER_FILE="banner.txt"  # Nouvelle variable pour le fichier banner
 # Répertoire d'installation pour le lien symbolique, généralement $HOME/bin/ sur Termux
 # ou ~/.local/bin/ sur d'autres systèmes Linux pour installations sans sudo
 INSTALL_DIR="$HOME/bin"
@@ -129,7 +130,26 @@ if [ $? -ne 0 ]; then
 fi
 echo -e "${COLOR_GREEN}Lien symbolique '$INSTALL_DIR/wazabi' créé avec succès.${COLOR_RESET}"
 
-# --- 5. Configuration automatique du PYTHONPATH et PATH (si le script est sourcé) ---
+# --- 4.5. Exporter le fichier banner.txt pour une utilisation universelle ---
+echo -e "\n${COLOR_BLUE}Configuration du fichier banner.txt pour une utilisation universelle...${COLOR_RESET}"
+
+BANNER_SOURCE="$WAZABI_ROOT_DIR/wazabi/$WAZABI_BANNER_FILE"
+if [ -f "$BANNER_SOURCE" ]; then
+    # Créer un lien symbolique vers le banner dans le répertoire d'installation
+    ln -sf "$BANNER_SOURCE" "$INSTALL_DIR/wazabi_banner.txt"
+    if [ $? -eq 0 ]; then
+        echo -e "${COLOR_GREEN}Fichier banner.txt exporté avec succès vers '$INSTALL_DIR/wazabi_banner.txt'.${COLOR_RESET}"
+        # Définir une variable d'environnement pour le chemin du banner
+        export WAZABI_BANNER_PATH="$INSTALL_DIR/wazabi_banner.txt"
+        echo -e "${COLOR_GREEN}Variable WAZABI_BANNER_PATH définie pour cette session.${COLOR_RESET}"
+    else
+        echo -e "${COLOR_YELLOW}Avertissement: Impossible de créer le lien symbolique pour le banner.${COLOR_RESET}"
+    fi
+else
+    echo -e "${COLOR_YELLOW}Avertissement: Le fichier banner.txt n'a pas été trouvé à '$BANNER_SOURCE'.${COLOR_RESET}"
+fi
+
+# --- 5. Configuration automatique du PYTHONPATH, PATH et WAZABI_BANNER_PATH (si le script est sourcé) ---
 echo -e "\n${COLOR_BLUE}Configuration des variables d'environnement pour Wazabi...${COLOR_RESET}"
 
 # Vérifier si le script est sourcé
@@ -167,6 +187,16 @@ else
     echo -e "${COLOR_YELLOW}Le répertoire racine de Wazabi est déjà dans votre \$PYTHONPATH.${COLOR_RESET}"
 fi
 
+# Configuration permanente de WAZABI_BANNER_PATH
+if [ -f "$INSTALL_DIR/wazabi_banner.txt" ]; then
+  if [ "$IS_SOURCED" = true ]; then
+    export WAZABI_BANNER_PATH="$INSTALL_DIR/wazabi_banner.txt"
+    echo -e "${COLOR_GREEN}Variable WAZABI_BANNER_PATH définie pour cette session.${COLOR_RESET}"
+  else
+    echo -e "${COLOR_YELLOW}Ajoutez 'export WAZABI_BANNER_PATH=\"$INSTALL_DIR/wazabi_banner.txt\"' à votre fichier de configuration de shell pour une disponibilité permanente.${COLOR_RESET}"
+  fi
+fi
+
 
 # --- 6. Instructions Post-Installation pour l'activation ---
 echo -e "\n${COLOR_YELLOW}--- Instructions Importantes Post-Installation ---${COLOR_RESET}"
@@ -190,4 +220,3 @@ fi
 
 echo -e "\n${COLOR_GREEN}Installation de Wazabi Shell terminée avec succès !${COLOR_RESET}"
 echo -e "${COLOR_GREEN}Profitez bien de votre Wazabi Shell pimenté !${COLOR_RESET}"
-
