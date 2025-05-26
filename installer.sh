@@ -1,73 +1,76 @@
 #!/bin/bash
 
-# Définition des couleurs
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+# Nom du script principal et du dossier racine
+WAZABI_ROOT_DIR=$(pwd)  # Obtient le répertoire courant où le script est exécuté
+WAZABI_MAIN_SCRIPT="wazabi.py"
+INSTALL_DIR="$HOME/bin"
+REQUIREMENTS_FILE="$WAZABI_ROOT_DIR/requirements.txt"
+BANNER_DIR="$WAZABI_ROOT_DIR/banner"
+BANNER_FILE="$BANNER_DIR/banner.txt"
 
-# Définition des chemins
-INSTALL_DIR="/data/data/com.termux/files/usr/bin"
-WAZABI_ROOT="$(cd "$(dirname "$0")" && pwd)"
-BANNER_SOURCE="$WAZABI_ROOT/banner/banner.txt"
-BANNER_DEST="$INSTALL_DIR/banner.txt"
+# Couleurs pour une meilleure lisibilité
+COLOR_BLUE='\033[0;34m'
+COLOR_GREEN='\033[0;32m'
+COLOR_RED='\033[0;31m'
+COLOR_YELLOW='\033[0;33m'
+COLOR_CYAN='\033[0;36m'
+COLOR_RESET='\033[0m' 
 
-echo -e "${BLUE}=== Installation de Wazabi ===${NC}"
+echo -e "${COLOR_CYAN}--- Démarrage de l'installation de Wazabi Shell ---${COLOR_RESET}"
 
-# 📌 Vérification de la présence de banner.txt
-if [ ! -f "$BANNER_SOURCE" ]; then
-    echo -e "${RED}ERREUR: banner.txt est introuvable dans ./banner/banner.txt${NC}"
-    echo -e "Contenu actuel du dossier banner:"
-    ls -l "$WAZABI_ROOT/banner/"
+# --- 0. Création du répertoire d'installation ---
+echo -e "\n${COLOR_BLUE}Vérification et création du répertoire d'installation local ($INSTALL_DIR)...${COLOR_RESET}"
+mkdir -p "$INSTALL_DIR"
+if [ $? -ne 0 ]; then
+    echo -e "${COLOR_RED}Erreur: Impossible de créer le répertoire '$INSTALL_DIR'.${COLOR_RESET}"
     exit 1
 fi
 
-# 📌 Vérification de Python3
-if ! command -v python3 &>/dev/null; then
-    echo -e "${RED}Python3 requis: pkg install python${NC}"
+# --- 1. Vérification et Installation des Prérequis ---
+echo -e "\n${COLOR_BLUE}Vérification des prérequis système...${COLOR_RESET}"
+if ! command -v python3 &> /dev/null; then
+    echo -e "${COLOR_RED}Python 3 n'est pas installé. Installe-le avec 'pkg install python'.${COLOR_RESET}"
+    exit 1
+fi
+if ! command -v pip &> /dev/null; then
+    echo -e "${COLOR_YELLOW}pip n'est pas trouvé. Installe-le avec 'pkg install python-pip'.${COLOR_RESET}"
     exit 1
 fi
 
-# 📌 Installation des dépendances si requirements.txt existe
-if [ -f "$WAZABI_ROOT/requirements.txt" ]; then
-    echo -e "${BLUE}Installation des dépendances...${NC}"
-    pip install -r "$WAZABI_ROOT/requirements.txt"
+# --- 2. Installation des dépendances Python ---
+echo -e "\n${COLOR_BLUE}Installation des dépendances Python...${COLOR_RESET}"
+if [ -f "$REQUIREMENTS_FILE" ]; then
+    pip install -r "$REQUIREMENTS_FILE"
 fi
 
-# 📌 Copie du banner sous le bon nom
-echo -e "${BLUE}Installation du banner...${NC}"
-cp "$BANNER_SOURCE" "$BANNER_DEST" || {
-    echo -e "${RED}Échec de la copie du banner!${NC}"
-    exit 1
-}
+# --- 3. Attribution des permissions ---
+echo -e "\n${COLOR_BLUE}Attribution des permissions d'exécution...${COLOR_RESET}"
+chmod +x "$WAZABI_ROOT_DIR/$WAZABI_MAIN_SCRIPT"
+MODULES_DIR="$WAZABI_ROOT_DIR/modules"
+if [ -d "$MODULES_DIR" ]; then
+    find "$MODULES_DIR" -name "*.py" -exec chmod +x {} \;
+fi
 
-# 📌 Copie du fichier wazabi.py dans bin
-echo -e "${BLUE}Installation des fichiers exécutables...${NC}"
-cp "$WAZABI_ROOT/wazabi.py" "$INSTALL_DIR/wazabi.py" || {
-    echo -e "${RED}Échec de la copie de wazabi.py!${NC}"
-    exit 1
-}
-
-# 📌 Création du wrapper wazabi
-echo -e "${BLUE}Création du wrapper Wazabi...${NC}"
-cat > "$INSTALL_DIR/wazabi" <<EOF
+# --- 4. Création du script wrapper pour l’exécution globale ---
+WRAPPER_SCRIPT_PATH="$INSTALL_DIR/wazabi"
+echo -e "\n${COLOR_BLUE}Configuration de l'exécution globale...${COLOR_RESET}"
+cat << EOF > "$WRAPPER_SCRIPT_PATH"
 #!/bin/bash
-BANNER="/data/data/com.termux/files/usr/bin/banner.txt"
+python3 "$WAZABI_ROOT_DIR/$WAZABI_MAIN_SCRIPT" "\$@"
+EOF
+chmod +x "$WRAPPER_SCRIPT_PATH"
 
-if [ ! -f "\$BANNER" ]; then
-    echo -e "${RED}ERREUR: Banner introuvable! Réinstallez.${NC}" >&2
-    exit 1
+# --- 5. Vérification et gestion du banner ---
+echo -e "\n${COLOR_BLUE}Vérification du fichier banner...${COLOR_RESET}"
+if [ ! -f "$BANNER_FILE" ]; then
+    echo -e "${COLOR_YELLOW}Avertissement: banner.txt introuvable dans '$BANNER_DIR'.${COLOR_RESET}"
 fi
 
-exec python3 "/data/data/com.termux/files/usr/bin/wazabi.py" "\$@"
-EOF
+# --- 6. Ajout à PATH si nécessaire ---
+echo -e "\n${COLOR_BLUE}Vérification du PATH...${COLOR_RESET}"
+if ! echo "$PATH" | grep -q "$INSTALL_DIR"; then
+    echo "export PATH=\$HOME/bin:\$PATH" >> $HOME/.bashrc
+    source $HOME/.bashrc
+fi
 
-chmod +x "$INSTALL_DIR/wazabi"
-
-# 📌 Vérification finale
-echo -e "\n${GREEN}=== INSTALLATION TERMINÉE ===${NC}"
-echo -e "Testez immédiatement avec:"
-echo -e "  ${BLUE}wazabi${NC}"
-echo -e "Le banner est installé à:"
-echo -e "  ${YELLOW}$BANNER_DEST${NC}"
+echo -e "\n${COLOR_GREEN}Installation terminée ! Tu peux lancer Wazabi avec : 'wazabi'${COLOR_RESET}"
