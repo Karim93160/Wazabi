@@ -3,9 +3,8 @@
 # Nom du script principal et du dossier racine
 WAZABI_ROOT_DIR=$(pwd) # Obtient le répertoire courant où le script est exécuté
 WAZABI_MAIN_SCRIPT="wazabi.py"
-WAZABI_BANNER_FILE="banner.txt"  # Nouvelle variable pour le fichier banner
-# Répertoire d'installation pour le lien symbolique, généralement $HOME/bin/ sur Termux
-# ou ~/.local/bin/ sur d'autres systèmes Linux pour installations sans sudo
+WAZABI_BANNER_PATH="$WAZABI_ROOT_DIR/wazabi/banner/banner.txt"  # Chemin complet vers le banner
+# Répertoire d'installation pour le lien symbolique (Termux: $HOME/bin/)
 INSTALL_DIR="$HOME/bin"
 REQUIREMENTS_FILE="$WAZABI_ROOT_DIR/requirements.txt"
 
@@ -36,17 +35,15 @@ echo -e "\n${COLOR_BLUE}Vérification des prérequis système...${COLOR_RESET}"
 if ! command -v python3 &> /dev/null
 then
     echo -e "${COLOR_RED}Erreur: Python 3 n'est pas installé. Veuillez l'installer avec 'pkg install python' et réessayez.${COLOR_RESET}"
-    return 1 # Utiliser return au lieu de exit si le script est sourcé
+    return 1
 fi
 
-# Vérifier si pip est installé. Si non, suggérer de l'installer avec pkg.
+# Vérifier si pip est installé
 if ! command -v pip &> /dev/null && ! command -v pip3 &> /dev/null
 then
     echo -e "${COLOR_YELLOW}Avertissement: pip ou pip3 n'est pas trouvé. Veuillez l'installer avec 'pkg install python-pip' et réessayez.${COLOR_RESET}"
-    # Ne pas sortir ici, car l'utilisateur pourrait avoir pip dans son PATH après une installation manuelle.
 fi
 echo -e "${COLOR_GREEN}Python 3 et pip sont disponibles.${COLOR_RESET}"
-
 
 # --- 2. Installation des Dépendances Python ---
 echo -e "\n${COLOR_BLUE}Installation des dépendances Python...${COLOR_RESET}"
@@ -61,9 +58,8 @@ if [ -f "$REQUIREMENTS_FILE" ]; then
         return 1
     fi
 else
-    echo -e "${COLOR_YELLOW}Avertissement: Le fichier 'requirements.txt' n'a pas été trouvé à '$REQUIREMENTS_FILE'. Aucune dépendance Python spécifique ne sera installée.${COLOR_RESET}"
+    echo -e "${COLOR_YELLOW}Avertissement: Le fichier 'requirements.txt' n'a pas été trouvé.${COLOR_RESET}"
 fi
-
 
 # --- 3. Donner les autorisations d'exécution aux scripts Python ---
 echo -e "\n${COLOR_BLUE}Attribution des permissions d'exécution aux scripts Python...${COLOR_RESET}"
@@ -76,147 +72,60 @@ else
     echo -e "${COLOR_RED}Erreur lors de l'attribution des permissions à '$WAZABI_MAIN_SCRIPT'.${COLOR_RESET}"
 fi
 
-# Donner les permissions à tous les modules Python
-MODULES_DIR="$WAZABI_ROOT_DIR/modules"
-if [ -d "$MODULES_DIR" ]; then
-    echo -e "${COLOR_BLUE}Attribution des permissions aux fichiers Python dans '$MODULES_DIR'...${COLOR_RESET}"
-    find "$MODULES_DIR" -name "*.py" -exec chmod +x {} \;
-    if [ $? -eq 0 ]; then
-        echo -e "${COLOR_GREEN}Permissions accordées à tous les fichiers Python dans '$MODULES_DIR'.${COLOR_RESET}"
-    else
-        echo -e "${COLOR_RED}Erreur lors de l'attribution des permissions aux modules.${COLOR_RESET}"
-    fi
-else
-    echo -e "${COLOR_YELLOW}Avertissement: Le dossier '$MODULES_DIR' n'existe pas. Aucune permission n'a été changée pour les modules.${COLOR_RESET}"
-fi
+# --- 4. Configuration de la commande 'wazabi' ---
+echo -e "\n${COLOR_BLUE}Configuration de la commande 'wazabi'...${COLOR_RESET}"
 
+# Création du script wrapper dans le répertoire d'installation
+WRAPPER_SCRIPT="$INSTALL_DIR/wazabi"
+echo -e "${COLOR_BLUE}Création du wrapper '$WRAPPER_SCRIPT'...${COLOR_RESET}"
 
-# --- 4. Rendre Wazabi exécutable comme une commande ---
-echo -e "\n${COLOR_BLUE}Configuration de la commande 'wazabi' dans votre PATH...${COLOR_RESET}"
-
-# Chemin du script wrapper
-WRAPPER_SCRIPT_PATH="$INSTALL_DIR/wazabi_wrapper.sh"
-
-# Créer le script wrapper
-echo -e "${COLOR_BLUE}Création du script wrapper '$WRAPPER_SCRIPT_PATH'...${COLOR_RESET}"
-cat << EOF > "$WRAPPER_SCRIPT_PATH"
+cat << EOF > "$WRAPPER_SCRIPT"
 #!/bin/bash
-# Ce script lance Wazabi Shell en utilisant python3.
-# Il transmet tous les arguments au script principal.
+# Wrapper pour Wazabi Shell
+export WAZABI_BANNER_PATH="$WAZABI_BANNER_PATH"
+export PYTHONPATH="$WAZABI_ROOT_DIR:\$PYTHONPATH"
 python3 "$WAZABI_ROOT_DIR/$WAZABI_MAIN_SCRIPT" "\$@"
 EOF
 
-# Rendre le script wrapper exécutable
-chmod +x "$WRAPPER_SCRIPT_PATH"
+# Rendre le wrapper exécutable
+chmod +x "$WRAPPER_SCRIPT"
 if [ $? -ne 0 ]; then
-    echo -e "${COLOR_RED}Erreur: Impossible de rendre le script wrapper '$WRAPPER_SCRIPT_PATH' exécutable.${COLOR_RESET}"
-    echo -e "${COLOR_RED}Installation incomplète. Veuillez vérifier vos permissions sur '$INSTALL_DIR'.${COLOR_RESET}"
-    rm -f "$WRAPPER_SCRIPT_PATH" # Nettoyage si échec
+    echo -e "${COLOR_RED}Erreur: Impossible de rendre le wrapper exécutable.${COLOR_RESET}"
     return 1
 fi
-echo -e "${COLOR_GREEN}Script wrapper rendu exécutable.${COLOR_RESET}"
+echo -e "${COLOR_GREEN}Wrapper créé avec succès.${COLOR_RESET}"
 
-# Créer le lien symbolique
-echo -e "${COLOR_BLUE}Création du lien symbolique 'wazabi' dans '$INSTALL_DIR'...${COLOR_RESET}"
-rm -f "$INSTALL_DIR/wazabi" # Supprimer l'ancien lien symbolique s'il existe
-ln -s "$WRAPPER_SCRIPT_PATH" "$INSTALL_DIR/wazabi"
+# --- 5. Configuration du banner.txt ---
+echo -e "\n${COLOR_BLUE}Configuration du fichier banner...${COLOR_RESET}"
 
-if [ $? -ne 0 ]; then
-    echo -e "${COLOR_RED}Erreur: Impossible de créer le lien symbolique pour 'wazabi'.${COLOR_RESET}"
-    echo -e "${COLOR_RED}Vérifiez vos permissions sur '$INSTALL_DIR'.${COLOR_RESET}"
-    echo -e "${COLOR_RED}Vous devrez lancer Wazabi manuellement avec 'python3 $WAZABI_ROOT_DIR/$WAZABI_MAIN_SCRIPT'.${COLOR_RESET}"
-    rm -f "$WRAPPER_SCRIPT_PATH" # Nettoyage si échec du lien
-    return 1
-fi
-echo -e "${COLOR_GREEN}Lien symbolique '$INSTALL_DIR/wazabi' créé avec succès.${COLOR_RESET}"
-
-# --- 4.5. Exporter le fichier banner.txt pour une utilisation universelle ---
-echo -e "\n${COLOR_BLUE}Configuration du fichier banner.txt pour une utilisation universelle...${COLOR_RESET}"
-
-BANNER_SOURCE="$WAZABI_ROOT_DIR/wazabi/$WAZABI_BANNER_FILE"
-if [ -f "$BANNER_SOURCE" ]; then
-    # Créer un lien symbolique vers le banner dans le répertoire d'installation
-    ln -sf "$BANNER_SOURCE" "$INSTALL_DIR/wazabi_banner.txt"
-    if [ $? -eq 0 ]; then
-        echo -e "${COLOR_GREEN}Fichier banner.txt exporté avec succès vers '$INSTALL_DIR/wazabi_banner.txt'.${COLOR_RESET}"
-        # Définir une variable d'environnement pour le chemin du banner
-        export WAZABI_BANNER_PATH="$INSTALL_DIR/wazabi_banner.txt"
-        echo -e "${COLOR_GREEN}Variable WAZABI_BANNER_PATH définie pour cette session.${COLOR_RESET}"
-    else
-        echo -e "${COLOR_YELLOW}Avertissement: Impossible de créer le lien symbolique pour le banner.${COLOR_RESET}"
-    fi
+if [ -f "$WAZABI_BANNER_PATH" ]; then
+    echo -e "${COLOR_GREEN}Fichier banner trouvé à: $WAZABI_BANNER_PATH${COLOR_RESET}"
+    # Le wrapper exportera automatiquement cette variable
 else
-    echo -e "${COLOR_YELLOW}Avertissement: Le fichier banner.txt n'a pas été trouvé à '$BANNER_SOURCE'.${COLOR_RESET}"
+    echo -e "${COLOR_YELLOW}Avertissement: Fichier banner non trouvé à $WAZABI_BANNER_PATH${COLOR_RESET}"
 fi
 
-# --- 5. Configuration automatique du PYTHONPATH, PATH et WAZABI_BANNER_PATH (si le script est sourcé) ---
-echo -e "\n${COLOR_BLUE}Configuration des variables d'environnement pour Wazabi...${COLOR_RESET}"
+# --- 6. Configuration du PATH ---
+echo -e "\n${COLOR_BLUE}Configuration du PATH...${COLOR_RESET}"
 
 # Vérifier si le script est sourcé
-if [[ -z "$BASH_SOURCE" || "$BASH_SOURCE" == "$0" ]]; then
-    # Le script n'est pas sourcé, il est exécuté directement.
-    # Dans ce cas, nous ne pouvons pas modifier le PATH et PYTHONPATH de la session courante.
-    # Nous allons seulement ajouter les instructions pour l'utilisateur.
-    IS_SOURCED=false
+if [[ $- == *i* ]]; then
+    # Mode interactif (sourcé)
+    if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
+        export PATH="$INSTALL_DIR:$PATH"
+        echo -e "${COLOR_GREEN}Répertoire '$INSTALL_DIR' ajouté au PATH pour cette session.${COLOR_RESET}"
+    fi
 else
-    # Le script est sourcé, nous pouvons modifier le PATH et PYTHONPATH de la session courante.
-    IS_SOURCED=true
+    # Mode non-interactif
+    echo -e "${COLOR_YELLOW}Pour une utilisation permanente, ajoutez ceci à votre ~/.bashrc ou ~/.zshrc:${COLOR_RESET}"
+    echo -e "  ${COLOR_GREEN}export PATH=\"$INSTALL_DIR:\$PATH\"${COLOR_RESET}"
 fi
 
-# Ajout du répertoire des exécutables de Wazabi au PATH
-if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
-  if [ "$IS_SOURCED" = true ]; then
-    export PATH="$INSTALL_DIR:$PATH"
-    echo -e "${COLOR_GREEN}Répertoire '$INSTALL_DIR' ajouté à votre \$PATH pour cette session.${COLOR_RESET}"
-  else
-    echo -e "${COLOR_YELLOW}Ajoutez 'export PATH=\"$INSTALL_DIR:\$PATH\"' à votre fichier de configuration de shell pour une disponibilité permanente.${COLOR_RESET}"
-  fi
-else
-    echo -e "${COLOR_YELLOW}Le répertoire '$INSTALL_DIR' est déjà dans votre \$PATH.${COLOR_RESET}"
-fi
-
-# Ajout du répertoire racine de Wazabi au PYTHONPATH
-if [[ ":$PYTHONPATH:" != *":$WAZABI_ROOT_DIR:"* ]]; then
-  if [ "$IS_SOURCED" = true ]; then
-    export PYTHONPATH="$WAZABI_ROOT_DIR:$PYTHONPATH"
-    echo -e "${COLOR_GREEN}Répertoire racine de Wazabi ajouté à votre \$PYTHONPATH pour cette session.${COLOR_RESET}"
-  else
-    echo -e "${COLOR_YELLOW}Ajoutez 'export PYTHONPATH=\"$WAZABI_ROOT_DIR:\$PYTHONPATH\"' à votre fichier de configuration de shell pour une disponibilité permanente.${COLOR_RESET}"
-  fi
-else
-    echo -e "${COLOR_YELLOW}Le répertoire racine de Wazabi est déjà dans votre \$PYTHONPATH.${COLOR_RESET}"
-fi
-
-# Configuration permanente de WAZABI_BANNER_PATH
-if [ -f "$INSTALL_DIR/wazabi_banner.txt" ]; then
-  if [ "$IS_SOURCED" = true ]; then
-    export WAZABI_BANNER_PATH="$INSTALL_DIR/wazabi_banner.txt"
-    echo -e "${COLOR_GREEN}Variable WAZABI_BANNER_PATH définie pour cette session.${COLOR_RESET}"
-  else
-    echo -e "${COLOR_YELLOW}Ajoutez 'export WAZABI_BANNER_PATH=\"$INSTALL_DIR/wazabi_banner.txt\"' à votre fichier de configuration de shell pour une disponibilité permanente.${COLOR_RESET}"
-  fi
-fi
-
-
-# --- 6. Instructions Post-Installation pour l'activation ---
-echo -e "\n${COLOR_YELLOW}--- Instructions Importantes Post-Installation ---${COLOR_RESET}"
-echo -e "${COLOR_YELLOW}L'installation de Wazabi Shell est terminée.${COLOR_RESET}"
-
-if [ "$IS_SOURCED" = true ]; then
-    echo -e "${COLOR_GREEN}Wazabi est maintenant prêt à l'emploi dans cette session !${COLOR_RESET}"
-    echo -e "${COLOR_GREEN}Pour lancer le shell: ${COLOR_CYAN}wazabi${COLOR_RESET}"
-    echo -e "${COLOR_GREEN}Pour exécuter une commande directe: ${COLOR_CYAN}wazabi file list -p .${COLOR_RESET}"
-    echo -e "${COLOR_YELLOW}Pour que Wazabi soit disponible dans toutes vos futures sessions Termux, veuillez ajouter la ligne suivante à votre ${HOME}/.bashrc (ou .zshrc) :${COLOR_RESET}"
-    echo -e "  ${COLOR_GREEN}source $WAZABI_ROOT_DIR/installer.sh${COLOR_RESET}"
-    echo -e "${COLOR_YELLOW}  (Ceci garantira que les variables d'environnement sont toujours définies au démarrage).${COLOR_RESET}"
-else
-    echo -e "${COLOR_YELLOW}Pour que 'wazabi' fonctionne ${COLOR_GREEN}immédiatement${COLOR_YELLOW} dans votre session actuelle, vous devez lancer l'installateur différemment :${COLOR_RESET}"
-    echo -e "  ${COLOR_GREEN}source installer.sh${COLOR_RESET}"
-    echo -e "${COLORYELLOW}Ceci configurera les chemins nécessaires pour Wazabi dans votre session actuelle.${COLOR_RESET}"
-    echo -e "${COLOR_YELLOW}Pour que Wazabi soit disponible dans ${COLOR_GREEN}toutes vos futures sessions Termux${COLOR_YELLOW} :${COLOR_RESET}"
-    echo -e "${COLOR_CYAN}  Ajoutez la ligne ${COLOR_GREEN}source $WAZABI_ROOT_DIR/installer.sh${COLOR_CYAN} à votre ${HOME}/.bashrc ou ${HOME}/.zshrc.${COLOR_RESET}"
-    echo -e "${COLOR_CYAN}  (Si vous ne l'ajoutez pas, vous devrez sourcer manuellement à chaque nouvelle session).${COLOR_RESET}"
-fi
-
-echo -e "\n${COLOR_GREEN}Installation de Wazabi Shell terminée avec succès !${COLOR_RESET}"
-echo -e "${COLOR_GREEN}Profitez bien de votre Wazabi Shell pimenté !${COLOR_RESET}"
+# --- 7. Instructions finales ---
+echo -e "\n${COLOR_GREEN}--- Installation terminée avec succès ! ---${COLOR_RESET}"
+echo -e "${COLOR_GREEN}Vous pouvez maintenant utiliser Wazabi avec la commande:${COLOR_RESET}"
+echo -e "  ${COLOR_CYAN}wazabi${COLOR_RESET}"
+echo -e "\n${COLOR_YELLOW}Si la commande n'est pas reconnue immédiatement:${COLOR_RESET}"
+echo -e "1. Soit exécutez: ${COLOR_CYAN}source $WAZABI_ROOT_DIR/installer.sh${COLOR_RESET}"
+echo -e "2. Soit redémarrez votre terminal"
+echo -e "\n${COLOR_GREEN}Profitez de Wazabi Shell !${COLOR_RESET}"
