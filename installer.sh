@@ -1,104 +1,80 @@
 #!/bin/bash
 
+# Couleurs pour les messages
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+YELLOW='\033[0;33m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+
 # Configuration des chemins
-WAZABI_ROOT_DIR=$(pwd)
-WAZABI_MAIN_SCRIPT="wazabi.py"
-WAZABI_BANNER_FILE="$WAZABI_ROOT_DIR/wazabi/banner/banner.txt"
-INSTALL_DIR="$HOME/bin"
-REQUIREMENTS_FILE="$WAZABI_ROOT_DIR/requirements.txt"
+REPO_NAME="wazabi"
+DEFAULT_REPO_PATH="/data/data/com.termux/files/home/$REPO_NAME"
+REPO_PATH="$DEFAULT_REPO_PATH"
+INSTALL_DIR="/data/data/com.termux/files/usr/bin/"
+BANNER_PATH="$REPO_PATH/wazabi/banner/banner.txt"
 
-# Couleurs pour le terminal
-COLOR_BLUE='\033[0;34m'
-COLOR_GREEN='\033[0;32m'
-COLOR_RED='\033[0;31m'
-COLOR_YELLOW='\033[0;33m'
-COLOR_CYAN='\033[0;36m'
-COLOR_RESET='\033[0m'
+echo -e "${BLUE}=== Installation de Wazabi Shell ===${NC}"
 
-echo -e "${COLOR_CYAN}=== Installation de Wazabi Shell ===${COLOR_RESET}"
-
-# 1. Vérification des prérequis
-echo -e "\n${COLOR_BLUE}Vérification des prérequis...${COLOR_RESET}"
-
-# Vérification Python
-if ! command -v python3 &>/dev/null; then
-    echo -e "${COLOR_RED}Python3 n'est pas installé. Installez-le avec: pkg install python${COLOR_RESET}"
-    exit 1
+# Vérification du répertoire Wazabi
+if [ ! -d "$REPO_PATH" ]; then
+  echo -e "${YELLOW}Le répertoire '$REPO_NAME' n'a pas été trouvé à l'emplacement par défaut.${NC}"
+  read -p "Entrez le chemin complet du dépôt Wazabi (laissez vide pour '$DEFAULT_REPO_PATH') : " CUSTOM_REPO_PATH
+  [ -n "$CUSTOM_REPO_PATH" ] && REPO_PATH="$CUSTOM_REPO_PATH"
 fi
 
-# Vérification pip
-if ! command -v pip &>/dev/null && ! command -v pip3 &>/dev/null; then
-    echo -e "${COLOR_YELLOW}pip n'est pas installé. Installez-le avec: pkg install python-pip${COLOR_RESET}"
+# Validation du script principal
+if [ ! -f "$REPO_PATH/wazabi.py" ]; then
+  echo -e "${RED}Erreur : wazabi.py introuvable dans '$REPO_PATH'${NC}"
+  exit 1
 fi
 
-# 2. Installation des dépendances
-if [ -f "$REQUIREMENTS_FILE" ]; then
-    echo -e "\n${COLOR_BLUE}Installation des dépendances Python...${COLOR_RESET}"
-    pip install -r "$REQUIREMENTS_FILE" || {
-        echo -e "${COLOR_RED}Erreur lors de l'installation des dépendances${COLOR_RESET}"
-        exit 1
-    }
+# Installation des dépendances
+echo -e "${BLUE}Installation des dépendances Python...${NC}"
+cd "$REPO_PATH" && pip install -r requirements.txt 2>/dev/null
+[ $? -eq 0 ] && echo -e "${GREEN}Dépendances installées avec succès.${NC}" || echo -e "${YELLOW}Certaines erreurs sont survenues lors de l'installation.${NC}"
+
+# Création des liens symboliques
+echo -e "${BLUE}Configuration des liens symboliques...${NC}"
+
+# Script principal
+ln -sf "$REPO_PATH/wazabi.py" "$INSTALL_DIR/wazabi.py"
+chmod +x "$INSTALL_DIR/wazabi.py"
+
+# Banner
+if [ -f "$BANNER_PATH" ]; then
+  ln -sf "$BANNER_PATH" "$INSTALL_DIR/wazabi_banner.txt"
+  echo -e "${GREEN}Banner configuré : $INSTALL_DIR/wazabi_banner.txt${NC}"
+else
+  echo -e "${YELLOW}Avertissement : banner.txt introuvable dans $BANNER_PATH${NC}"
 fi
 
-# 3. Création du répertoire d'installation
-mkdir -p "$INSTALL_DIR" || {
-    echo -e "${COLOR_RED}Impossible de créer $INSTALL_DIR${COLOR_RESET}"
-    exit 1
-}
+# Création du wrapper
+echo -e "${BLUE}Création du wrapper d'exécution...${NC}"
 
-# 4. Création du wrapper universel
-echo -e "\n${COLOR_BLUE}Création de la commande 'wazabi'...${COLOR_RESET}"
-
-cat > "$INSTALL_DIR/wazabi" << EOF
-#!/bin/bash
-# Wrapper universel pour Wazabi Shell
-export WAZABI_ROOT_DIR="$WAZABI_ROOT_DIR"
-export WAZABI_BANNER_PATH="$WAZABI_BANNER_FILE"
-export PYTHONPATH="$WAZABI_ROOT_DIR:\$PYTHONPATH"
-exec python3 "$WAZABI_ROOT_DIR/$WAZABI_MAIN_SCRIPT" "\$@"
+cat > "$INSTALL_DIR/wazabi" <<EOF
+#!/data/data/com.termux/files/usr/bin/bash
+# Wrapper universel pour Wazabi
+export WAZABI_ROOT_DIR="$REPO_PATH"
+export WAZABI_BANNER_PATH="$INSTALL_DIR/wazabi_banner.txt"
+exec python3 "$INSTALL_DIR/wazabi.py" "\$@"
 EOF
 
-chmod +x "$INSTALL_DIR/wazabi" || {
-    echo -e "${COLOR_RED}Erreur lors de la création du wrapper${COLOR_RESET}"
-    exit 1
-}
+chmod +x "$INSTALL_DIR/wazabi"
 
-# 5. Configuration du PATH
-echo -e "\n${COLOR_BLUE}Configuration de l'environnement...${COLOR_RESET}"
-
-# Ajout au PATH si pas déjà présent
+# Configuration du PATH
 if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
-    export PATH="$INSTALL_DIR:$PATH"
-    echo -e "${COLOR_GREEN}Ajout de $INSTALL_DIR au PATH${COLOR_RESET}"
-    
-    # Ajout permanent dans .bashrc ou .zshrc
-    SHELL_RC="$HOME/.bashrc"
-    [ -f "$HOME/.zshrc" ] && SHELL_RC="$HOME/.zshrc"
-    
-    if ! grep -q "export PATH=\"$INSTALL_DIR:\$PATH\"" "$SHELL_RC"; then
-        echo -e "\n# Wazabi Shell Path" >> "$SHELL_RC"
-        echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> "$SHELL_RC"
-        echo -e "${COLOR_GREEN}Configuration permanente ajoutée à $SHELL_RC${COLOR_RESET}"
-    fi
+  echo -e "${BLUE}Configuration du PATH...${NC}"
+  export PATH="$INSTALL_DIR:$PATH"
+  echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.bashrc
+  echo "export PATH=\"$INSTALL_DIR:\$PATH\"" >> ~/.zshrc 2>/dev/null
 fi
 
-# 6. Rafraîchissement automatique du shell
-echo -e "\n${COLOR_BLUE}Rafraîchissement de l'environnement...${COLOR_RESET}"
-if [ -n "$BASH" ]; then
-    source ~/.bashrc 2>/dev/null || source ~/.bash_profile
-elif [ -n "$ZSH_VERSION" ]; then
-    source ~/.zshrc
-fi
+# Rafraîchissement du shell
+echo -e "${BLUE}Rafraîchissement de l'environnement...${NC}"
+source ~/.bashrc 2>/dev/null || source ~/.zshrc 2>/dev/null
 
-# 7. Vérification finale
-echo -e "\n${COLOR_GREEN}=== Installation réussie ! ===${COLOR_RESET}"
-echo -e "Vous pouvez maintenant utiliser: ${COLOR_CYAN}wazabi${COLOR_RESET} depuis n'importe où"
-echo -e "Le banner sera toujours chargé depuis: ${COLOR_YELLOW}$WAZABI_BANNER_FILE${COLOR_RESET}"
-
-# Test automatique
-if command -v wazabi &>/dev/null; then
-    echo -e "\n${COLOR_GREEN}Test: La commande 'wazabi' est maintenant disponible !${COLOR_RESET}"
-else
-    echo -e "\n${COLOR_YELLOW}Attention: Pour que la commande soit disponible, exécutez:${COLOR_RESET}"
-    echo -e "source ~/.bashrc  # ou source ~/.zshrc selon votre shell"
-fi
+echo -e "${GREEN}\nInstallation terminée avec succès !${NC}"
+echo -e "${GREEN}Vous pouvez maintenant utiliser Wazabi en tapant simplement :${NC}"
+echo -e "  ${BLUE}wazabi${NC}"
+echo -e "${GREEN}Le banner sera chargé depuis : ${YELLOW}$INSTALL_DIR/wazabi_banner.txt${NC}"
