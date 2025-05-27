@@ -14,20 +14,6 @@
 
 ![GitHub Gif](https://github.com/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
 
-## Table des Matières
-
-1. [À Propos de Wazabi Shell](#à-propos-de-wazabi-shell)
-2. [Philosophie Wazabi](#philosophie-wazabi)
-3. [Fonctionnalités Clés](#fonctionnalités-clés)
-4. [Installation](#installation)
-    * [Cloner le Dépôt](#cloner-le-dépôt)
-    * [Exécuter l'Installer](#exécuter-l-installer)
-5. [Utilisation](#utilisation)
-    * [Lancer l'outil](#lancer-l-outil)
-6. [Contribuer](#contribuer)
-7. [Licence](#licence)
-8. [Contact](#contact)
-
 ---
 
 ## À Propos de Wazabi Shell 🔖
