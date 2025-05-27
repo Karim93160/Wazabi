@@ -1,7 +1,6 @@
 # 🌶️ Wazabi Shell : Le Sanctuaire du Hacker Éthique 🛡️
 
-![Wazabi Shell Banner](banner/banner.txt)
-*(Affiche la bannière animée en ASCII art, générée dynamiquement par l'outil)*
+![GitHub Gif](https://github.com/Karim93160/Dark-Web/blob/89f798754dc6eeff3bafeb598381fe9902b8526f/Screen_Recording_20250527_022240_Termux-ezgif.com-video-to-gif-converter.gif)
 
 [![Version](https://img.shields.io/badge/Version-0.1.0-blue.svg)](https://github.com/Karim93160/wazabi)
 [![Statut du Projet](https://img.shields.io/badge/Statut-En%20Développement-orange.svg)](https://github.com/Karim93160/wazabi)
