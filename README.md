@@ -15,17 +15,17 @@
 
 ## Table des Matières
 
-1. [À Propos de Wazabi Shell](#a-propos-de-wazabi-shell)
-2. [Philosophie Wazabi](#philosophie-wazabi)
-3. [Fonctionnalités Clés](#fonctionnalites-cles)
-4. [Installation](#installation)
-    * [4.1 Cloner le Dépôt](#cloner-le-depot)
-    * [4.2 Exécuter l'Installer](#executer-linstaller)
-5. [Utilisation](#utilisation)
-    * [5.1 Lancer l'outil](#lancer-loutil)
-6. [Contribuer](#contribuer)
-7. [Licence](#licence)
-8. [Contact](#contact)
+1. [À Propos de Wazabi Shell](#À-Propos-de-Wazabi-Shell)
+2. [Philosophie Wazabi](#Philosophie-Wazabi)
+3. [Fonctionnalités Clés](#Fonctionnalités-Clés)
+4. [Installation](#Installation)
+    * [4.1 Cloner le Dépôt](#Cloner-le-Dépôt)
+    * [4.2 Exécuter l'Installer](#Exécuter-l'Installer)
+5. [Utilisation](#Utilisation)
+    * [5.1 Lancer l'outil](#Lancer-l'outil)
+6. [Contribuer](#Contribuer)
+7. [Licence](#Licence)
+8. [Contact](#Contact)
 
 ---
 
