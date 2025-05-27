@@ -44,12 +44,6 @@ cd wazabi
 bash installer.sh
 ```
 
-## Utilisation 🖱
-
-```bash
-wazabi
-```
-
 ### Lancer l'outil 🖲
 
 ```bash
