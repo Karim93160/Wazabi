@@ -29,13 +29,13 @@
 
 ---
 
-## À Propos de Wazabi Shell {#a-propos-de-wazabi-shell}
+## À Propos de Wazabi Shell 🔖
 
 Wazabi Shell est bien plus qu'un simple outil en ligne de commande ; c'est un **sanctuaire intégré et interactif** pour le professionnel de la cybersécurité éthique. Conçu avec la **précision, la connaissance et l'innovation** comme piliers, Wazabi offre un environnement unifié pour exécuter une multitude de tâches d'audit de sécurité, d'analyse de données et de gestion de systèmes, le tout depuis un unique prompt.
 
 Fini les allers-retours entre divers scripts et outils. Wazabi te permet de concentrer ta puissance intellectuelle et technique en un seul point, fluidifiant ton workflow et augmentant ton efficacité dans le respect des principes éthiques.
 
-## Philosophie Wazabi {#philosophie-wazabi}
+## Philosophie Wazabi 🪔
 
 Inspiré par le "piment" (Wasabi en japonais), notre philosophie repose sur trois piliers fondamentaux :
 
@@ -45,7 +45,7 @@ Inspiré par le "piment" (Wasabi en japonais), notre philosophie repose sur troi
 
 Wazabi est un engagement envers la pratique éthique du hacking, en mettant l'accent sur la découverte proactive des faiblesses pour un monde numérique plus sûr.
 
-##  Fonctionnalités Clés {#fonctionnalites-cles}
+##  Fonctionnalités Clés 🏮
 
 Wazabi Shell est organisé en modules logiques, chacun regroupant des commandes spécifiques :
 
@@ -61,11 +61,11 @@ Wazabi Shell est organisé en modules logiques, chacun regroupant des commandes 
     * **`dict_attack` :** **Nouvelle fonctionnalité !** Attaque par dictionnaire pour tenter de craquer des hachages de mots de passe en utilisant des listes de mots.
 * **`config` (Ajustement des Paramètres) :** Permet de visualiser, définir, sauvegarder et charger les paramètres de configuration du shell pour une expérience personnalisée.
 
-## Installation {#installation}
+## Installation 🧮
 
 L'installation de Wazabi Shell est simple et rapide grâce à notre script `installer.sh`.
 
-### Cloner le Dépôt {#cloner-le-depot}
+### Cloner le Dépôt 📥
 
 Commencez par cloner le dépôt GitHub dans le répertoire de votre choix :
 
@@ -75,7 +75,7 @@ cd wazabi
 
 ```
 
-### Exécuter l'Installer {#executer-linstaller}
+### Exécuter l'Installer 🖲
 
 
 ```
@@ -83,7 +83,7 @@ bash installer.sh
 
 ```
 
-## Utilisation {#utilisation}
+## Utilisation 🖱
 
 
 ```
@@ -92,14 +92,14 @@ wazabi
 ```
 ![GitHub Gif](https://github.com/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
 
-### Lancer l'outil {#lancer-loutil}
+### Lancer l'outil 🖲
 
 ```
 wazabi
 
 ```
 
-## Contribuer {#contribuer}
+## Contribuer 💟
 
 [![Sponsor me on GitHub](https://img.shields.io/badge/Sponsor-GitHub-brightgreen.svg)](https://github.com/sponsors/karim93160)
 [![Buy me a coffee](https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-FFDD00.svg)](https://www.buymeacoffee.com/karim93160)
@@ -109,13 +109,13 @@ wazabi
 
 ---
 
-## Licence {#licence}
+## Licence 📜
 
 Wazabi Shell est distribué sous la licence [MIT License](LICENSE).
 
 ---
 
-## Contact {#contact} 
+## Contact 📧
 
 Pour toute question ou suggestion, n'hésitez pas à ouvrir une [issue sur GitHub](https://github.com/Karim93160/wazabi/issues) ou à nous contacter par email :
 
