@@ -12,6 +12,7 @@
 [![Stars GitHub](https://img.shields.io/github/stars/Karim93160/wazabi?style=flat-square&color=FFD700)](https://github.com/Karim93160/wazabi/stargazers)
 [![Forkez-moi sur GitHub](https://img.shields.io/github/forks/Karim93160/wazabi?style=flat-square&color=blueviolet)](https://github.com/Karim93160/wazabi/network/members)
 
+![GitHub Gif](https://github.com/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
 
 ## Table des Matières
 
@@ -73,7 +74,6 @@ wazabi
 ```
 ____
 
-![GitHub Gif](https://github.com/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
 
 ## Contribuer 💟
 
