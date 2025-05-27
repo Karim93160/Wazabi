@@ -3,9 +3,18 @@
 ![Wazabi Shell Banner](banner/banner.txt)
 *(Affiche la bannière animée en ASCII art, générée dynamiquement par l'outil)*
 
-[![Version](https://img.shields.io/badge/Version-0.1.0-blue.svg)](https://github.com/Karim93160/wazabi) [![Statut du Projet](https://img.shields.io/badge/Statut-En%20Développement-orange.svg)](https://github.com/Karim93160/wazabi) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Python Version](https://img.shields.io/badge/Python-3.x+-blue.svg)](https://www.python.org/) [![GitHub Actions](https://github.com/Karim93160/wazabi/actions/workflows/main.yml/badge.svg)](https://github.com/Karim93160/wazabi/actions/workflows/main.yml) [![Code Coverage](https://img.shields.io/badge/Coverage-Non%20Implémenté-lightgrey.svg)](https://github.com/Karim93160/wazabi) [![Documentation](https://img.shields.io/badge/Documentation-Oui-brightgreen.svg)](https://github.com/Karim93160/wazabi#table-des-matières) [![Dernier Commit](https://img.shields.io/github/last-commit/Karim93160/wazabi)](https://github.com/Karim93160/wazabi/commits/main)
-[![Stars GitHub](https://img.shields.io/github/stars/Karim93160/wazabi?style=social)](https://github.com/Karim93160/wazabi/stargazers)
-[![Forkez-moi sur GitHub](https://img.shields.io/github/forks/Karim93160/wazabi?style=social)](https://github.com/Karim93160/wazabi/network/members)
+[![Version](https://img.shields.io/badge/Version-0.1.0-blue.svg)](https://github.com/Karim93160/wazabi)
+[![Statut du Projet](https://img.shields.io/badge/Statut-En%20Développement-orange.svg)](https://github.com/Karim93160/wazabi)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python Version](https://img.shields.io/badge/Python-3.x+-blue.svg)](https://www.python.org/)
+[![Compatibilité OS](https://img.shields.io/badge/OS%20Compatibilité-Linux%20%7C%20Windows%20%7C%20macOS-green.svg)](https://github.com/Karim93160/wazabi)
+[![Contributions Bienvenues](https://img.shields.io/badge/Contributions-Bienvenues-purple.svg)](https://github.com/Karim93160/wazabi/blob/main/CONTRIBUTING.md)
+[![Documentation](https://img.shields.io/badge/Documentation-Oui-brightgreen.svg)](https://github.com/Karim93160/wazabi#table-des-matières)
+[![Dernier Commit](https://img.shields.io/github/last-commit/Karim93160/wazabi)](https://github.com/Karim93160/wazabi/commits/main)
+[![Stars GitHub](https://img.shields.io/github/stars/Karim93160/wazabi?style=flat-square&color=FFD700)](https://github.com/Karim93160/wazabi/stargazers)
+[![Forkez-moi sur GitHub](https://img.shields.io/github/forks/Karim93160/wazabi?style=flat-square&color=blueviolet)](https://github.com/Karim93160/wazabi/network/members)
+
+
 
 
 ## Table des Matières
