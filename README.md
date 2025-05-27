@@ -87,7 +87,7 @@ ____
 
 ## Licence 📜
 
-Wazabi Shell est distribué sous la licence [MIT License](LICENSE).
+Wazabi Shell est distribué sous la licence [MIT License](https://github.com/Karim93160/wazabi/blob/53bf6c0ed8b5d221ab86d4b2a0fa00e319dcd627/LICENSE.md).
 
 ---
 
