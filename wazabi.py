@@ -49,7 +49,7 @@ def load_banner():
     """
     Charge et retourne le contenu de la bannière en utilisant le chemin racine.
     """
-    banner_file_path = os.path.join(WAZABI_ROOT, "banner", "banner.txt")
+    banner_file_path = os.path.join(WAZABI_ROOT, "banner", "banner-wazabi.txt")
     try:
         with open(banner_file_path, 'r', encoding='utf-8') as f:
             return f.readlines()
