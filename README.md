@@ -1,8 +1,5 @@
 ![GitHub Gif](https://github.com/Karim93160/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
 # 🌶️ Wazabi Shell : Le Sanctuaire du Hacker Éthique 🛡️
-
-![GitHub Gif](https://github.com/Karim93160/Dark-Web/blob/89f798754dc6eeff3bafeb598381fe9902b8526f/Screen_Recording_20250527_022240_Termux-ezgif.com-video-to-gif-converter.gif)
-
 [![Version](https://img.shields.io/badge/Version-0.1.0-blue.svg)](https://github.com/Karim93160/wazabi)
 [![Statut du Projet](https://img.shields.io/badge/Statut-En%20Développement-orange.svg)](https://github.com/Karim93160/wazabi)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -12,6 +9,7 @@
 [![Dernier Commit](https://img.shields.io/github/last-commit/Karim93160/wazabi)](https://github.com/Karim93160/wazabi/commits/main)
 [![Stars GitHub](https://img.shields.io/github/stars/Karim93160/wazabi?style=flat-square&color=FFD700)](https://github.com/Karim93160/wazabi/stargazers)
 [![Forkez-moi sur GitHub](https://img.shields.io/github/forks/Karim93160/wazabi?style=flat-square&color=blueviolet)](https://github.com/Karim93160/wazabi/network/members)
+![GitHub Gif](https://github.com/Karim93160/Dark-Web/blob/89f798754dc6eeff3bafeb598381fe9902b8526f/Screen_Recording_20250527_022240_Termux-ezgif.com-video-to-gif-converter.gif)
 
 ---
 
