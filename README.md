@@ -79,6 +79,7 @@ Commencez par cloner le dépôt GitHub dans le répertoire de votre choix :
 ```bash
 git clone https://github.com/karim93160/wazabi.git
 cd wazabi
+```
 
 ## 💟Contributions bienvenues🤝
 
