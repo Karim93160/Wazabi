@@ -25,10 +25,9 @@
     * [Exécuter l'Installer](#exécuter-linstaller)
 5.  [Utilisation](#-utilisation-)
     * [Lancer l'outil](#-utilisation-)
-6.  [Dépendances](#-dépendances-)
-7.  [Contribuer](#-contribuer-)
-8.  [Licence](#-licence-)
-9.  [Contact](#-contact-)
+6.  [Contribuer](#-contribuer-)
+7.  [Licence](#-licence-)
+8.  [Contact](#-contact-)
 
 ---
 
@@ -75,19 +74,40 @@ Commencez par cloner le dépôt GitHub dans le répertoire de votre choix :
 ```bash
 git clone https://github.com/karim93160/wazabi.git
 cd wazabi
+
 ```
 
-### Exécuter l'Installer
+### Exécuter l'Installer ⚙️
 ```
 bash installer.sh
+
 ```
 
-![GitHub Gif](https://github.com/Karim93160/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
+### Utilisation 🫟
+```
+wazabi
 
-## 💟Contributions bienvenues🤝
+```
+![GitHub Gif](https://github.com/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
+
+## 💟 Contribuer 🤝
 
 [![Sponsor me on GitHub](https://img.shields.io/badge/Sponsor-GitHub-brightgreen.svg)](https://github.com/sponsors/karim93160)
 [![Buy me a coffee](https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-FFDD00.svg)](https://www.buymeacoffee.com/karim93160)
 [![Support me on Ko-fi](https://img.shields.io/badge/Donate-Ko--fi-F16061.svg)](https://ko-fi.com/karim93160)
 [![Support me on Patreon](https://img.shields.io/badge/Patreon-Support%20me-FF424D.svg)](https://www.patreon.com/karim93160)
 [![Donate on Liberapay](https://img.shields.io/badge/Donate-Liberapay-F6C915.svg)](https://liberapay.com/karim93160/donate)
+
+---
+
+## 📄 Licence 📄
+
+Wazabi Shell est distribué sous la licence [MIT License](LICENSE).
+
+---
+
+## 📧 Contact 📧
+
+Pour toute question ou suggestion, n'hésitez pas à ouvrir une [issue sur GitHub](https://github.com/Karim93160/wazabi/issues) ou à nous contacter par email :
+
+[![Contact par Email](https://img.shields.io/badge/Contact-par%20Email-blue.svg)](mailto:gallotiankarim@gmail.com)
