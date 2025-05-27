@@ -79,6 +79,7 @@ Commencez par cloner le dépôt GitHub dans le répertoire de votre choix :
 git clone https://github.com/karim93160/wazabi.git
 cd wazabi
 ```
+![GitHub Gif](https://github.com/Karim93160/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
 
 ## 💟Contributions bienvenues🤝
 
