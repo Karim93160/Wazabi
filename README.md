@@ -8,7 +8,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/Python-3.x+-blue.svg)](https://www.python.org/)
 [![Compatibilité OS](https://img.shields.io/badge/OS%20Compatibilité-Linux%20%7C%20Windows%20%7C%20macOS-green.svg)](https://github.com/Karim93160/wazabi)
-[![Contributions Bienvenues](https://img.shields.io/badge/Contributions-Bienvenues-purple.svg)](https://github.com/Karim93160/wazabi/blob/main/CONTRIBUTING.md)
 [![Documentation](https://img.shields.io/badge/Documentation-Oui-brightgreen.svg)](https://github.com/Karim93160/wazabi#table-des-matières)
 [![Dernier Commit](https://img.shields.io/github/last-commit/Karim93160/wazabi)](https://github.com/Karim93160/wazabi/commits/main)
 [![Stars GitHub](https://img.shields.io/github/stars/Karim93160/wazabi?style=flat-square&color=FFD700)](https://github.com/Karim93160/wazabi/stargazers)
@@ -78,6 +77,13 @@ L'installation de Wazabi Shell est simple et rapide grâce à notre script `inst
 Commencez par cloner le dépôt GitHub dans le répertoire de votre choix :
 
 ```bash
-git clone [https://github.com/Karim93160/wazabi.git](https://github.com/Karim93160/wazabi.git)
+git clone https://github.com/karim93160/wazabi.git
 cd wazabi
 
+## 💟Contributions bienvenues🤝
+
+[![Sponsor me on GitHub](https://img.shields.io/badge/Sponsor-GitHub-brightgreen.svg)](https://github.com/sponsors/karim93160)
+[![Buy me a coffee](https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-FFDD00.svg)](https://www.buymeacoffee.com/karim93160)
+[![Support me on Ko-fi](https://img.shields.io/badge/Donate-Ko--fi-F16061.svg)](https://ko-fi.com/karim93160)
+[![Support me on Patreon](https://img.shields.io/badge/Patreon-Support%20me-FF424D.svg)](https://www.patreon.com/karim93160)
+[![Donate on Liberapay](https://img.shields.io/badge/Donate-Liberapay-F6C915.svg)](https://liberapay.com/karim93160/donate)
