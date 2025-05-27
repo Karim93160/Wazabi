@@ -65,9 +65,11 @@ Wazabi Shell est organisé en modules logiques, chacun regroupant des commandes 
 
 ## ⚙️ Installation ⚙️
 
+
 L'installation de Wazabi Shell est simple et rapide grâce à notre script `installer.sh`.
 
 ### Cloner le Dépôt
+
 
 Commencez par cloner le dépôt GitHub dans le répertoire de votre choix :
 
@@ -78,6 +80,8 @@ cd wazabi
 ```
 
 ### Exécuter l'Installer ⚙️
+
+
 ```
 bash installer.sh
 
