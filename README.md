@@ -110,4 +110,4 @@ Wazabi Shell est distribué sous la licence [MIT License](LICENSE).
 
 Pour toute question ou suggestion, n'hésitez pas à ouvrir une [issue sur GitHub](https://github.com/Karim93160/wazabi/issues) ou à nous contacter par email :
 
-[![Contact par Email](https://img.shields.io/badge/Contact-par%20Email-blue.svg)](mailto:gallotiankarim@gmail.com)
+[![Contact par Email](https://img.shields.io/badge/Contact-par%20Email-blue.svg)](mailto:karim9316077185@gmail.com)
