@@ -15,51 +15,31 @@
 
 ## Table des Matières
 
-1. [À Propos de Wazabi Shell](#À-Propos-de-Wazabi-Shell)
-2. [Philosophie Wazabi](#Philosophie-Wazabi)
-3. [Fonctionnalités Clés](#Fonctionnalités-Clés)
-4. [Installation](#Installation)
-    * [4.1 Cloner le Dépôt](#Cloner-le-Dépôt)
-    * [4.2 Exécuter l'Installer](#Exécuter-l'Installer)
-5. [Utilisation](#Utilisation)
-    * [5.1 Lancer l'outil](#Lancer-l'outil)
-6. [Contribuer](#Contribuer)
-7. [Licence](#Licence)
-8. [Contact](#Contact)
+1. [À Propos de Wazabi Shell](#à-propos-de-wazabi-shell)
+2. [Philosophie Wazabi](#philosophie-wazabi)
+3. [Fonctionnalités Clés](#fonctionnalités-clés)
+4. [Installation](#installation)
+    * [Cloner le Dépôt](#cloner-le-dépôt)
+    * [Exécuter l'Installer](#exécuter-l-installer)
+5. [Utilisation](#utilisation)
+    * [Lancer l'outil](#lancer-l-outil)
+6. [Contribuer](#contribuer)
+7. [Licence](#licence)
+8. [Contact](#contact)
 
 ---
 
 ## À Propos de Wazabi Shell 🔖
 
-Wazabi Shell est bien plus qu'un simple outil en ligne de commande ; c'est un **sanctuaire intégré et interactif** pour le professionnel de la cybersécurité éthique. Conçu avec la **précision, la connaissance et l'innovation** comme piliers, Wazabi offre un environnement unifié pour exécuter une multitude de tâches d'audit de sécurité, d'analyse de données et de gestion de systèmes, le tout depuis un unique prompt.
-
-Fini les allers-retours entre divers scripts et outils. Wazabi te permet de concentrer ta puissance intellectuelle et technique en un seul point, fluidifiant ton workflow et augmentant ton efficacité dans le respect des principes éthiques.
+Wazabi Shell est bien plus qu'un simple outil en ligne de commande ; c'est un **sanctuaire intégré et interactif** pour le professionnel de la cybersécurité éthique...
 
 ## Philosophie Wazabi 🪔
 
-Inspiré par le "piment" (Wasabi en japonais), notre philosophie repose sur trois piliers fondamentaux :
+Inspiré par le "piment" (Wasabi en japonais), notre philosophie repose sur trois piliers fondamentaux...
 
-* **Protection 🛡️ :** Détecter les vulnérabilités, renforcer les défenses, et garantir la sécurité des systèmes avec responsabilité.
-* **Connaissance 📚 :** Analyser, comprendre et interpréter les données pour prendre des décisions éclairées et anticiper les menaces.
-* **Innovation ✨ :** Développer des solutions intelligentes et efficaces, repoussant les limites de la cybersécurité avec créativité.
+## Fonctionnalités Clés 🏮
 
-Wazabi est un engagement envers la pratique éthique du hacking, en mettant l'accent sur la découverte proactive des faiblesses pour un monde numérique plus sûr.
-
-##  Fonctionnalités Clés 🏮
-
-Wazabi Shell est organisé en modules logiques, chacun regroupant des commandes spécifiques :
-
-* **`file` (Gestion des Flux) :** Opérations robustes de copie, déplacement, suppression, listage et recherche de fichiers et répertoires.
-* **`network` (Maîtrise du Réseau) :** Requêtes HTTP (GET, POST), téléchargement de fichiers, et un scanner de ports rapide pour cartographier les infrastructures.
-* **`data` (Traitement des Informations) :** Lecture/écriture de fichiers CSV et JSON, et transformation de contenu texte (majuscules, minuscules, inversion, ROT13).
-* **`db` (Interaction avec le Savoir Stocké) :** Gestion d'une base de données SQLite interne pour le suivi des URLs traitées et l'exécution de requêtes SQL personnalisées (avec prudence !).
-* **`security` (Art de la Discrétion) :** Fonctions de hachage (MD5, SHA-256, SHA-512), encodage/décodage Base64, génération de mots de passe robustes, et **vérification de correspondance de hachages**.
-* **`wazabi` (Piment Wazabi - Exploration Avancée) :**
-    * **`port_scan` :** Scanner de ports intégré (alias de `network scan_ports`).
-    * **`analyze_dir` :** Analyse approfondie des répertoires pour détecter des fichiers volumineux ou sensibles.
-    * **`generate_payload` :** Création de payloads textuels personnalisables pour le fuzzing et les tests d'injection.
-    * **`dict_attack` :** **Nouvelle fonctionnalité !** Attaque par dictionnaire pour tenter de craquer des hachages de mots de passe en utilisant des listes de mots.
-* **`config` (Ajustement des Paramètres) :** Permet de visualiser, définir, sauvegarder et charger les paramètres de configuration du shell pour une expérience personnalisée.
+Wazabi Shell est organisé en modules logiques, chacun regroupant des commandes spécifiques...
 
 ## Installation 🧮
 
@@ -72,32 +52,27 @@ Commencez par cloner le dépôt GitHub dans le répertoire de votre choix :
 ```bash
 git clone https://github.com/karim93160/wazabi.git
 cd wazabi
-
 ```
 
 ### Exécuter l'Installer 🖲
 
-
-```
+```bash
 bash installer.sh
-
 ```
 
 ## Utilisation 🖱
 
-
-```
+```bash
 wazabi
-
 ```
-![GitHub Gif](https://github.com/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
 
 ### Lancer l'outil 🖲
 
-```
+```bash
 wazabi
-
 ```
+
+![GitHub Gif](https://github.com/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
 
 ## Contribuer 💟
 
