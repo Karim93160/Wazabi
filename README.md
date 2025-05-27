@@ -12,8 +12,6 @@
 [![Stars GitHub](https://img.shields.io/github/stars/Karim93160/wazabi?style=flat-square&color=FFD700)](https://github.com/Karim93160/wazabi/stargazers)
 [![Forkez-moi sur GitHub](https://img.shields.io/github/forks/Karim93160/wazabi?style=flat-square&color=blueviolet)](https://github.com/Karim93160/wazabi/network/members)
 
-![GitHub Gif](https://github.com/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
-
 ---
 
 ## À Propos de Wazabi Shell 🔖
@@ -82,3 +80,5 @@ Wazabi Shell est distribué sous la licence [MIT License](https://github.com/Kar
 Pour toute question ou suggestion, n'hésitez pas à ouvrir une [issue sur GitHub](https://github.com/Karim93160/wazabi/issues) ou à nous contacter par email :
 
 [![Contact par Email](https://img.shields.io/badge/Contact-par%20Email-blue.svg)](mailto:karim9316077185@gmail.com)
+
+![GitHub Gif](https://github.com/Dark-Web/blob/6504d2d0e2662da4b5d06b1975fd3dd4f010a94a/iGpHt2H22k1orjgT9b.gif)
